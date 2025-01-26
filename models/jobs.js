@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
+
 
 const jobSchema = new mongoose.Schema({
     title:{
@@ -16,13 +16,12 @@ const jobSchema = new mongoose.Schema({
     },
     email:{
         type:String,
-        validate:[validator.isEmail,"Please enter valid email address"]
     },
     address:{
         type:String,
         required:[true,"Please enter the address"]
     },
-    compnay:{
+    company:{
         type:String,
         required:[true,"Please enter the company name"]
     },
@@ -98,6 +97,5 @@ const jobSchema = new mongoose.Schema({
         select:false
     }
 })
-
 
 module.exports = mongoose.model("Job",jobSchema);

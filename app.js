@@ -10,19 +10,12 @@ dotenv.config({path: './config/config.env'});
 
 // custom middleware
 
-const next = (req,res,next)=>{
-    console.log("Hello from next");
-}
 
-const middleware= (req,res,next)=>{
-    req.user="Siva";
-    console.log("Hello from middleware");
-    next();
-}
+
 
 // middleware
 app.use(express.json());
-app.use(middleware);
+
 
 
 // connecting to database
