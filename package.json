@@ -1,0 +1,19 @@
+{
+  "name": "jobby-api",
+  "version": "1.0.0",
+  "description": "this api is about jobs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "prod": "SET NODE_ENV=production && nodemon app.js"
+  },
+  "author": "siva",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5",
+    "nodemon": "^3.1.9"
+  }
+}
