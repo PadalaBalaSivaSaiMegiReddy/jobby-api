@@ -1,4 +1,5 @@
 const Job = require('../models/jobs');
+const ErrorHandler = require('../utils/errorHandler');
 
 // get all jobs => /api/v1/jobs
 exports.getJobs=async (req,res,next)=>{
@@ -39,31 +40,31 @@ exports.getJob = async (req,res,next)=>{
 }
 
 // update job => /api/v1/job/:id
-exports.updateJob= async (req,res,next)=>{
-    let job = await Job.findByIdAndUpdate(req.params.id);
+exports.updateJob = async (req, res, next) => {
+    try {
+        let job = await Job.findById(req.params.id);
 
-    if(!job){
-        return res.status(404).json({
-            success:false,
-            message:"job not found"
-        })
+        if (!job) {
+            return next(new ErrorHandler("job not found", 404));
+        }
+
+        job = await Job.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "job updated successfully",
+            data: job
+        });
+    } catch (error) {
+        next(error);
     }
-
-    job = await Job.findByIdAndUpdate(req.params.id,req.body,{
-        new:true,
-        runValidators:true
-    });
-
-    res.status(200).json({
-        success:true,
-        message:"job updated successfully",
-        data : job
-    })
 }
 
 // delete job => /api/v1/jon/:id
-
-exports.deleteJob = async (req, res,next) => {
+exports.deleteJob = async (req, res, next) => {
     let job = await Job.findById(req.params.id);
 
     if (!job) {
@@ -79,20 +80,16 @@ exports.deleteJob = async (req, res,next) => {
         success: true,
         message: "job deleted successfully"
     });
-
-    next();
-
 }
 
 // get stats about topic(job) => /api/v1/stats/:topic
-
-exports.jobStats = async (req,res,next)=>{
+exports.jobStats = async (req, res, next) => {
     const stats = await Job.aggregate([
         {
-            $match:{ $text: { $search: "\"" + req.params.topic + "\"" } }
+            $match: { $text: { $search: "\"" + req.params.topic + "\"" } }
         },
         {
-            $group:{
+            $group: {
                 _id: { $toUpper: '$experience' },
                 totalJobs: { $sum: 1 },
                 avgPosition: { $avg: '$positions' },
@@ -103,17 +100,16 @@ exports.jobStats = async (req,res,next)=>{
         }
     ]);
 
-    if(stats.length === 0){
+    if (stats.length === 0) {
         return res.status(200).json({
-            success:false,
-            message:"No stats found for this job"
-        })
+            success: false,
+            message: "No stats found for this job"
+        });
     }
 
     res.status(200).json({
-        success:true,
-        data:stats
-    })
-    next();
+        success: true,
+        data: stats
+    });
 }
 
