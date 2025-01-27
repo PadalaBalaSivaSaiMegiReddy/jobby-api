@@ -6,27 +6,19 @@ const connectDatabase = require("./config/database");
 const app = express();
 
 // setting up config file
-dotenv.config({path: './config/config.env'});
+dotenv.config({path: './config/.env'});
 
 // custom middleware
-
-
 
 
 // middleware
 app.use(express.json());
 
-
-
 // connecting to database
 connectDatabase();
 
-
-
 // importing all routes
-
 const jobs = require("./routes/jobs");
-
 app.use("/api/v1/",jobs);
 
 // listening to the route
