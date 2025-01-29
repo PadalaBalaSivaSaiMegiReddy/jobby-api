@@ -82,7 +82,7 @@ exports.forgotPassword = catchAsyncErrors( async (req, res, next) => {
         
         await user.save({ validateBeforeSave : false });
 
-        return next(new ErrorHandler('Email is not sent.'), 500);
+        return next(new ErrorHandler('Email is not sent.', 500)); // Ensure next() is called correctly
     } 
 
 });

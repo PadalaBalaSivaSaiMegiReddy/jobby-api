@@ -136,7 +136,7 @@ exports.deleteUserAdmin = catchAsyncErrors( async (req, res, next) => {
 
 // Delete user files and employeer jobs
 async function deleteUserData(user, role) {
-    if(role === 'employeer') {
+    if(role === 'employer') {
         await Job.deleteMany({user : user});
     }
 
