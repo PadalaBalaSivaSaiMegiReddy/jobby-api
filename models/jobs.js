@@ -1,18 +1,17 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 
-
 const jobSchema = new mongoose.Schema({
     title:{
         type:String,
-        required:[true,"Please enter job title"],
-        trim:true,
+        required:[false,"Please enter job title"],
+        trim:false,
         maxlength:[100,"Job title cannot exceed 100 characters."]
     },
     slug: String,
     description:{
         type:String,
-        required:[true,"Please enter job description"],
+        required:[false,"Please enter job description"],
         maxlength:[1000,"Job description cannot exceed 1000 characters."]
     },
     email:{
@@ -20,7 +19,7 @@ const jobSchema = new mongoose.Schema({
     },
     address:{
         type:String,
-        required:[true,"Please enter the address"]
+        required:[false,"Please enter the address"]
     },
     location:{
         type:{
@@ -38,11 +37,11 @@ const jobSchema = new mongoose.Schema({
     },
     company:{
         type:String,
-        required:[true,"Please enter the company name"]
+        required:[false,"Please enter the company name"]
     },
     industry:{
         type:[String],
-        required:true,
+        required:[false,"Please select the industry for this job"],
         enum:{
             values:[
                 'Business',
@@ -57,7 +56,7 @@ const jobSchema = new mongoose.Schema({
     },
     jobType:{
         type:String,
-        required:true,
+        required:[false,"Please select job type"],
         enum:{
             values:[
                 'Permanent',
@@ -69,7 +68,7 @@ const jobSchema = new mongoose.Schema({
     },
     minEducation:{
         type:String,
-        required:true,
+        required:[false,"Please select minimum education"],
         enum:{
             values:[
                 'Bachelors',
@@ -84,7 +83,7 @@ const jobSchema = new mongoose.Schema({
     },
     experience:{
         type:String,
-        required:true,
+        required:[false,"Please select experience"],
         enum:{
             values:[
                 'No Experience',
@@ -97,7 +96,7 @@ const jobSchema = new mongoose.Schema({
     },
     salary:{
         type:Number,
-        required:[true,"Please enter expected salary for this job"]
+        required:[false,"Please enter expected salary for this job"]
     },
     postingDate:{
         type:Date,
@@ -110,6 +109,10 @@ const jobSchema = new mongoose.Schema({
     applicantsApplied:{
         type:[Object],
         select:false
+    },
+    skills: {
+        type: [String],
+        required: [false, "Please enter required skills for this job"]
     }
 })
 
